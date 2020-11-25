@@ -3,7 +3,7 @@ import {calculateTotal} from "../helpers";
 
 const Form = (props) => {
 
-    const {amount, storeAmount, numberOfPayments, storeNumberOfPayments, total, storeTotal} = props
+    const {amount, storeAmount, numberOfPayments, storeNumberOfPayments, total, storeTotal, storeLoading} = props
     const [error, storeError] = useState(false);
 
     const calculateLoan = e => {
@@ -15,10 +15,15 @@ const Form = (props) => {
         } 
 
         storeError(false);
-        
-        const total = calculateTotal(amount, numberOfPayments);
 
-        storeTotal(total);
+        storeLoading(true);
+
+        setTimeout(() => {
+            const total = calculateTotal(amount, numberOfPayments);
+            storeTotal(total);
+            storeLoading(false);
+        }, 3000)
+
     }
     return(
         <Fragment>
