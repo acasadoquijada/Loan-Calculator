@@ -1,18 +1,24 @@
 import React, {Fragment, useState} from 'react';
+import {calculateTotal} from "../helpers";
 
-const Form = ({amount, storeAmount, paymentNumber, storePaymentNumber}) => {
+const Form = (props) => {
 
+    const {amount, storeAmount, numberOfPayments, storeNumberOfPayments, total, storeTotal} = props
     const [error, storeError] = useState(false);
 
     const calculateLoan = e => {
         e.preventDefault();
 
-        if(amount === 0 || paymentNumber === "") {
+        if(amount === 0 || numberOfPayments === "") {
             storeError(true);
             return;
         } 
 
         storeError(false);
+        
+        const total = calculateTotal(amount, numberOfPayments);
+
+        storeTotal(total);
     }
     return(
         <Fragment>
@@ -32,7 +38,7 @@ onSubmit={calculateLoan}>
                   <label>Number of payments</label>
                   <select 
                       className="u-full-width"
-                      onChange={ e => storePaymentNumber(e.target.value) }
+                      onChange={ e => storeNumberOfPayments(e.target.value) }
                   >
                       <option value="">Select</option>
                       <option value="3">3 months</option>
